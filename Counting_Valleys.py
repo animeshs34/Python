@@ -9,3 +9,4 @@ def countingValleys(s):
         else:
             position -= 1
     return valley
+
