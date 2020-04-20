@@ -56,40 +56,74 @@ class DoubleLinkedList:
     def insert(self,data):
         if self.head is None:
             self.head = self.tail = Node(data)
-        else:
-            current = self.head
-            while current.next is not None:
-                current = current.next
-            current.next = Node(data,None,current)
-            self.tail = current.next
+            return True
         
+        current = self.head
+        while current.next is not None:
+            current = current.next
+        current.next = Node(data,None,current)
+        self.tail = current.next
+
     def delete(self,data):
-        if self.head == None:
-            print("Empty List..")
-            return False
-        
         if self.head.data == data:
             self.head = self.head.next
             self.head.prev = None
             return True
         
+        if self.head is None:
+            print("List is Empty...")
+        
         if self.tail.data == data:
             self.tail = self.tail.prev
             self.tail.next = None
             return True
-        
+
         current = self.head
-        while current.next is not None or current.data == data:
+        while current is not None:
             if current.data == data:
                 current.prev.set_next(current.next)
                 current.next.setPrev(current.prev)
                 return True
-            else:
-                current = current.next
-        
+            current = current.next
         return False
+
     
-    def 
+    def insertAtBeginning(self,data):
+        if self.head is None:
+            self.head = self.tail = Node(data)
+        else:
+            self.head = Node(data,self.head,None)
+    
+    def getNode(self,index):
+        current = self.head
+
+        if current == None:
+            return None
+        i = 0
+        while current.next is not None and i < index:
+            current = current.next
+            if current == None:
+                 break
+            i += 1
+        return current
+    
+
+    def insertAtGivenPosition(self,index,data):
+        if self.head == None or index == 0:
+            self.insertAtBeginning(data)
+        else index > 0:
+        temp = self.getNode(index)
+        if temp == None or temp.get_next() == None:
+            self.insert(data)
+        else:
+            newNode = Node(data,temp.get_next(),temp)
+            temp.get_next().setPrev(newNode)
+            temp.set_next(newNode)
+        
+    
+
+        
+
 
 if __name__ == '__main__':
     # Initializing list
@@ -100,6 +134,8 @@ if __name__ == '__main__':
     l.insert(2)
     l.insert(3)
     l.insert(4)
+    l.insertAtBeginning(45)
+    print("animesh ",l.getNode(0))
 
     l.fwd_print()
 
